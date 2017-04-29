@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.MaintenanceMapperCustom">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_maintenance_where">
+		<if test="maintenanceCustom!=null">
+			<if test="maintenanceCustom.id!=null and maintenanceCustom.id!=''">
+				and maintenance.id = #{maintenanceCustom.id}
+			</if>
+			<if test="maintenanceCustom.name!=null and maintenanceCustom.name!=''">
+				and maintenance.name = #{maintenanceCustom.name}
+			</if>
+			<if test="maintenanceCustom.tel!=null and maintenanceCustom.tel!=''">
+				and maintenance.tel = #{maintenanceCustom.tel}
+			</if>
+
+			<if test="maintenanceCustom.role!=null and maintenanceCustom.role!=''">
+				and maintenance.role = #{maintenanceCustom.role}
+			</if>
+
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findMaintenanceList" parameterType="cn.cjpt.mes.pojo.vo.MaintenanceQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.MaintenanceCustom">
+		
+
+		select * from MAINTENANCE
+		<where>
+			<include refid="query_maintenance_where" />
+		</where>
+
+		
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findMaintenanceCount" parameterType="cn.cjpt.mes.pojo.vo.MaintenanceQueryVo"
+		resultType="int">
+		select count(*) from MAINTENANCE
+
+		<where>
+			<include refid="query_maintenance_where" />
+		</where>
+
+	</select>
+
+</mapper>

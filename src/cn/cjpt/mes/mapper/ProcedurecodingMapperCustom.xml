@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.ProcedurecodingMapperCustom">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_procedurecoding_where">
+		<if test="procedurecodingCustom!=null">
+			<if
+				test="procedurecodingCustom.technicsname!=null and procedurecodingCustom.technicsname!=''">
+				and PROCEDURECODING.TECHNICSNAME =
+				#{procedurecodingCustom.technicsname}
+			</if>
+			<if
+				test="procedurecodingCustom.beginTime!=null and procedurecodingCustom.beginTime!=''">
+				AND PROCEDURECODING.FINISHTIME
+				&gt;=#{procedurecodingCustom.beginTime}
+			</if>
+			<if
+				test="procedurecodingCustom.endTime!=null and procedurecodingCustom.endTime!=''">
+				AND PROCEDURECODING.FINISHTIME
+				&lt;=#{procedurecodingCustom.endTime}
+			</if>
+
+			<if
+				test="procedurecodingCustom.pc !=null and procedurecodingCustom.pc!=''">
+				and procedurecoding.technicsname ='${procedurecodingCustom.pc}'
+			</if>
+			<if test="procedurecodingCustom.materielid !=null ">
+				and procedurecoding.materielid
+				='${procedurecodingCustom.materielid}'
+			</if>
+		</if>
+	</sql>
+
+
+	<sql id="query_ScheduleCount1_where">
+		<if test="procedurecodingCustom!=null">
+			<if
+				test="procedurecodingCustom.unitname !=null and procedurecodingCustom.materielmark!=2">
+				and ttt.unitname ='${procedurecodingCustom.unitname}'
+			</if>
+			<if
+				test="procedurecodingCustom.technicsname !=null and procedurecodingCustom.materielmark ==2">
+				and ttt.technicsname ='${procedurecodingCustom.technicsname}'
+			</if>
+			<if test="procedurecodingCustom.todaytime !=null ">
+				and ttt.begintime
+				&lt;='${procedurecodingCustom.todaytime}'
+			</if>
+			<if test="procedurecodingCustom.todaytime !=null ">
+				and ttt.endtime &gt;='${procedurecodingCustom.todaytime}'
+			</if>
+		</if>
+	</sql>
+
+
+	<sql id="query_technicsname_where">
+		<if test="procedurecodingCustom!=null">
+			<if
+				test="procedurecodingCustom.unitname !='机装' and procedurecodingCustom.unitname !='电装' and procedurecodingCustom.unitname !='总装'">
+				and ff.technicsname='bend'
+			</if>
+		</if>
+	</sql>
+
+
+	<sql id="query_ScheduleCount2_where">
+		<if test="procedurecodingCustom!=null">
+			<if
+				test="procedurecodingCustom.materielid !=null and procedurecodingCustom.materielmark!=2">
+				and p.materielid ='${procedurecodingCustom.materielid}'
+			</if>
+			<if
+				test="procedurecodingCustom.technicsname !=null and procedurecodingCustom.materielmark ==2">
+				and p.technicsname ='${procedurecodingCustom.technicsname}'
+			</if>
+			<if test="procedurecodingCustom.todaytime !=null ">
+				and p.finishtime&gt;=kkk.mintime and
+				p.finishtime&lt;=kkk.maxtime
+			</if>
+		</if>
+	</sql>
+
+
+	<sql id="query_ScheduleTotalCount_where">
+		<if test="procedurecodingCustom!=null ">
+
+			<if
+				test="procedurecodingCustom.materielid !=null and procedurecodingCustom.todaytime !=null ">
+				and begintime&lt;='${procedurecodingCustom.todaytime}' and
+				endtime&gt;='${procedurecodingCustom.todaytime}'
+			</if>
+			<if test="procedurecodingCustom.materielid !=null">
+				and materielid ='${procedurecodingCustom.materielid}' and btime is not null and etime is not null
+			</if>
+		</if>
+	</sql>
+
+	<sql id="query_querystationcount_where">
+		<if test="procedurecodingCustom!=null ">
+
+			<if test="procedurecodingCustom.technicsname !=null  ">
+				and
+				p.technicsname='${procedurecodingCustom.technicsname}'
+			</if>
+			<if
+				test="procedurecodingCustom.begintime!=null and procedurecodingCustom.begintime !='' ">
+				and p.finishtime&gt;='${procedurecodingCustom.begintime}'
+			</if>
+			<if
+				test="procedurecodingCustom.endtime!=null and procedurecodingCustom.endtime !='' ">
+				and p.finishtime&lt;='${procedurecodingCustom.endtime}'
+			</if>
+		</if>
+	</sql>
+
+	<!-- 查询 -->
+	<select id="findProcedurecodingList" parameterType="cn.cjpt.mes.pojo.vo.ProcedurecodingQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.ProcedurecodingCustom">
+
+		select tt.* ,'1' as countnum from (select * from PROCEDURECODING left
+		join materiel m on procedurecoding.materielid=m.id
+		left join technics
+		on procedurecoding.technicsname=technics.technicsname
+		left join
+		BAR_CODE
+		on BAR_CODE.BARCODENUMBER =PROCEDURECODING.MATERIELCODING
+		<where>
+			<include refid="query_procedurecoding_where" />
+		</where>
+		)tt
+
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findProcedurecodingCount" parameterType="cn.cjpt.mes.pojo.vo.ProcedurecodingQueryVo"
+		resultType="int">
+		select count(*) from Procedurecoding
+
+		<where>
+			<include refid="query_procedurecoding_where" />
+		</where>
+
+	</select>
+
+	<!-- 查询部件分类今日已完成的总数 -->
+	<select id="findScheduleCount" parameterType="cn.cjpt.mes.pojo.vo.ProcedurecodingQueryVo"
+		resultType="int">
+		select count(*) from(
+		select *
+		from PROCEDURECODING p,
+		(select min(begintime) as
+		mintime, max(endtime) as maxtime
+		from (select tt.*,
+		(select count(*)
+		from PROCEDURECODING
+		where technicsname = tt.technicsname
+		and materielid
+		= tt.mid) as finishNum
+		from (select p.*,
+		t.technicsname,
+		t.tcname,
+		o.ordernum,
+		m.id as mid,
+		m.materielname,
+		m.unitname
+		from Publishworkorder
+		p
+		left join Technics t
+		on p.technicsid = t.id
+		left join orderdecompose od
+		on p.orderdecomposeid = od.id
+		left join Orders o
+		on od.ordersid = o.id
+		left join Materiel m
+		on od.materielid = m.id) tt) ttt
+
+		<where>
+			<include refid="query_ScheduleCount1_where" />
+		</where>
+		) kkk
+		<where>
+			<include refid="query_ScheduleCount2_where" />
+		</where>
+		)ff
+		<where>
+			<include refid="query_technicsname_where" />
+		</where>
+	</select>
+
+	<select id="findScheduleTotalCount" parameterType="cn.cjpt.mes.pojo.vo.ProcedurecodingQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.ProcedurecodingCustom">
+		select  * from (select od.odnumber,od.materielid,od.begintime as btime,od.endtime as etime,o.* from ORDERDECOMPOSE od left join orders o on od.ordersid=o.id)
+
+		<where>
+			<include refid="query_ScheduleTotalCount_where" />
+		</where>
+
+	</select>
+
+	<!-- 查询 部件中 已将完成的 -->
+	<select id="findMaterialFinishCount" resultType="int"
+		parameterType="cn.cjpt.mes.pojo.vo.ProcedurecodingQueryVo">
+
+		select count(*) from procedurecoding
+
+		<where>
+			<include refid="query_procedurecoding_where" />
+		</where>
+
+	</select>
+
+
+
+	<select id="querystationcount" parameterType="cn.cjpt.mes.pojo.vo.ProcedurecodingQueryVo"
+		resultType="int">
+		select count(*) from procedurecoding p
+
+		<where>
+			<include refid="query_querystationcount_where" />
+		</where>
+
+	</select>
+</mapper>

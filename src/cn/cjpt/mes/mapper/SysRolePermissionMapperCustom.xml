@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.SysRolePermissionMapperCustom">
+
+
+	<!-- 根据 角色 id 删除 角色 和权限 的关系数据 -->
+	<delete id="deleteByRoleId" parameterType="string">
+		delete from
+		SYS_ROLE_PERMISSION
+		where SYS_ROLE_ID = #{id}
+	</delete>
+
+</mapper>

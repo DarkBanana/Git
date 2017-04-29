@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.SysUserMapperCustom">
+
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_sysuser_where">
+		<if test="sysUserCustom">
+			<if test="sysUserCustom.id!=null and sysUserCustom.id!=''">
+				and SYS_USER.id = #{sysUserCustom.id}
+			</if>
+			<if test="sysUserCustom.usercode!=null and sysUserCustom.usercode!=''">
+				and SYS_USER.usercode = #{sysUserCustom.usercode}
+			</if>
+			<if test="sysUserCustom.jobnumber!=null and sysUserCustom.jobnumber!=''">
+				and SYS_USER.jobnumber = #{sysUserCustom.jobnumber}
+			</if>
+			<if test="sysUserCustom.username!=null and sysUserCustom.username!=''">
+				and SYS_USER.USERNAME like '%${sysUserCustom.username}%'
+			</if>
+			<if test="sysUserCustom.department!=null and sysUserCustom.department!=''">
+				and SYS_USER.department = #{sysUserCustom.department}
+			</if>
+
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findSysUserList" parameterType="cn.cjpt.mes.pojo.vo.SysUserQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.SysUserCustom">
+	<!-- 	<if test="pageQuery!=null">
+			select page_2.*
+			from (select page_1.*, rownum page_num
+			from
+			(
+		</if> -->
+
+		SELECT SYS_USER.ID,
+		SYS_USER.Usercode,
+		SYS_USER.USERNAME,
+		SYS_USER.AGE,
+		SYS_USER.SEX,
+		SYS_USER.JOBNUMBER,
+		SYS_USER.WORKTYPE,
+		SYS_USER.POSITIONALTITLES,
+		SYS_USER.DEPARTMENT,
+		SYS_USER.TEL,
+		SYS_USER.WORKSTATION,
+		(SELECT SYS_ROLE.name
+		FROM SYS_ROLE
+		WHERE id IN
+		(SELECT sys_role_id
+		FROM sys_user_role
+		WHERE sys_user_role.sys_user_id =
+		SYS_USER.ID)) roleName
+		FROM SYS_USER
+
+
+		<where>
+			<include refid="query_sysuser_where" />
+		</where>
+
+<!-- 		<if test="pageQuery!=null">
+			) page_1
+        <![CDATA[
+         where rownum <= ${pageQuery.PageQuery_end}) page_2
+ where page_2.page_num >= ${pageQuery.PageQuery_start}
+ ]]>
+		</if> -->
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findSysUserCount" parameterType="cn.cjpt.mes.pojo.vo.SysUserQueryVo"
+		resultType="int">
+
+
+		select count(*) from (
+
+		SELECT SYS_USER.ID,
+		SYS_USER.Usercode,
+		SYS_USER.USERNAME,
+		SYS_USER.AGE,
+		SYS_USER.SEX,
+		SYS_USER.JOBNUMBER,
+		SYS_USER.WORKTYPE,
+		SYS_USER.POSITIONALTITLES,
+		SYS_USER.DEPARTMENT,
+		SYS_USER.TEL,
+		SYS_USER.WORKSTATION,
+		(SELECT SYS_ROLE.name
+		FROM SYS_ROLE
+		WHERE id IN (SELECT sys_role_id
+		FROM sys_user_role
+		WHERE sys_user_role.sys_user_id = SYS_USER.ID)) roleName
+		FROM SYS_USER
+
+
+		)SYS_USER
+
+
+
+		<where>
+			<include refid="query_sysuser_where" />
+		</where>
+
+	</select>
+
+
+</mapper>

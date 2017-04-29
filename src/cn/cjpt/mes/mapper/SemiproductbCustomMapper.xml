@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.SemiproductbCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_semiproductb_where">
+		<if test="semiproductbCustom!=null">
+			<if test="semiproductbCustom.id!=null and semiproductbCustom.id!=''">
+				and id = '${semiproductbCustom.id}'
+			</if>
+			<if test="semiproductbCustom.mid!=null and semiproductbCustom.mid!=''">
+				and mid = '${semiproductbCustom.mid}'
+			</if>
+			<if test="semiproductbCustom.cname!=null and semiproductbCustom.cname!=''">
+				and cname = '${semiproductbCustom.cname}'
+			</if>
+			<if test="semiproductbCustom.unitname!=null and semiproductbCustom.unitname!=''">
+				and unitname = '${semiproductbCustom.unitname}'
+			</if>
+		</if>
+	</sql>
+
+	<!-- 物料类型查询 -->
+	<select id="findSemiproductbList" parameterType="cn.cjpt.mes.pojo.vo.SemiproductbQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.SemiproductbCustom">
+		select s.id,
+		s.putstorenum,
+		s.outstorenum,
+		s.remainnum,
+		s.rtime,
+		s.materielname,
+		s.unitname,
+		c.cname
+		from (select sp.id,
+		sp.putstorenum,
+		sp.outstorenum,
+		sp.remainnum,
+		sp.rtime,
+		m.materielname,
+		m.ctypeid,
+		m.unitname
+		from semiproductb sp
+		left join materiel m
+		on sp.mid = m.id) s
+		left join ctype c
+		on s.ctypeid = c.id
+		<where>
+			<include refid="query_semiproductb_where" />
+		</where>
+		order by rtime desc
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findSemiproductbCount" parameterType="cn.cjpt.mes.pojo.vo.SemiproductbQueryVo"
+		resultType="int">
+		select count(*) from (select s.id,
+		s.putstorenum,
+		s.outstorenum,
+		s.remainnum,
+		s.rtime,
+		s.materielname,
+		s.unitname,
+		c.cname
+		from (select sp.id,
+		sp.putstorenum,
+		sp.outstorenum,
+		sp.remainnum,
+		sp.rtime,
+		m.materielname,
+		m.ctypeid,
+		m.unitname
+		from semiproductb sp
+		left join materiel m
+		on sp.mid = m.id) s
+		left join ctype c
+		on s.ctypeid = c.id)
+
+
+		<where>
+			<include refid="query_semiproductb_where" />
+		</where>
+
+	</select>
+
+	<!-- 查询到规格型号相同的最靠前的日期的物料 -->
+	<select id="findSemiproductbByDate" parameterType="cn.cjpt.mes.pojo.vo.SemiproductbQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.SemiproductbCustom">
+		select * from semiproductb where rtime =(
+		select max(rtime) from
+		semiproductb
+
+		<where>
+			<include refid="query_semiproductb_where" />
+		</where>
+		)
+	</select>
+
+	<!--查询 最大日期记录 -->
+	<select id="findSemiproductbByMaxDate" parameterType="cn.cjpt.mes.pojo.vo.SemiproductbQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.SemiproductbCustom">
+		select * from semiproductb where rtime =(
+		select max(rtime)
+		from
+		semiproductb
+		)
+	</select>
+
+</mapper>

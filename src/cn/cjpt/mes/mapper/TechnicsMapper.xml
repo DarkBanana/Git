@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.TechnicsMapper" >
+  <resultMap id="BaseResultMap" type="cn.cjpt.mes.pojo.po.Technics" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="TECHNICSNAME" property="technicsname" jdbcType="VARCHAR" />
+    <result column="TECHNICSMARK" property="technicsmark" jdbcType="VARCHAR" />
+    <result column="TCNAME" property="tcname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, TECHNICSNAME, TECHNICSMARK, TCNAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.cjpt.mes.pojo.po.TechnicsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from TECHNICS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TECHNICS
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TECHNICS
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.cjpt.mes.pojo.po.TechnicsExample" >
+    delete from TECHNICS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.cjpt.mes.pojo.po.Technics" >
+    insert into TECHNICS (ID, TECHNICSNAME, TECHNICSMARK, 
+      TCNAME)
+    values (#{id,jdbcType=VARCHAR}, #{technicsname,jdbcType=VARCHAR}, #{technicsmark,jdbcType=VARCHAR}, 
+      #{tcname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cjpt.mes.pojo.po.Technics" >
+    insert into TECHNICS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="technicsname != null" >
+        TECHNICSNAME,
+      </if>
+      <if test="technicsmark != null" >
+        TECHNICSMARK,
+      </if>
+      <if test="tcname != null" >
+        TCNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="technicsname != null" >
+        #{technicsname,jdbcType=VARCHAR},
+      </if>
+      <if test="technicsmark != null" >
+        #{technicsmark,jdbcType=VARCHAR},
+      </if>
+      <if test="tcname != null" >
+        #{tcname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.cjpt.mes.pojo.po.TechnicsExample" resultType="java.lang.Integer" >
+    select count(*) from TECHNICS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update TECHNICS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.technicsname != null" >
+        TECHNICSNAME = #{record.technicsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.technicsmark != null" >
+        TECHNICSMARK = #{record.technicsmark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tcname != null" >
+        TCNAME = #{record.tcname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update TECHNICS
+    set ID = #{record.id,jdbcType=VARCHAR},
+      TECHNICSNAME = #{record.technicsname,jdbcType=VARCHAR},
+      TECHNICSMARK = #{record.technicsmark,jdbcType=VARCHAR},
+      TCNAME = #{record.tcname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.cjpt.mes.pojo.po.Technics" >
+    update TECHNICS
+    <set >
+      <if test="technicsname != null" >
+        TECHNICSNAME = #{technicsname,jdbcType=VARCHAR},
+      </if>
+      <if test="technicsmark != null" >
+        TECHNICSMARK = #{technicsmark,jdbcType=VARCHAR},
+      </if>
+      <if test="tcname != null" >
+        TCNAME = #{tcname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.cjpt.mes.pojo.po.Technics" >
+    update TECHNICS
+    set TECHNICSNAME = #{technicsname,jdbcType=VARCHAR},
+      TECHNICSMARK = #{technicsmark,jdbcType=VARCHAR},
+      TCNAME = #{tcname,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.SysRoleMapperCustom">
+
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_sys_role_where">
+		<if test="sysRoleCustom!=null">
+			<if test="sysRoleCustom.id!=null and sysRoleCustom.id!=''">
+				and sys_role.id = #{sysRoleCustom.id}
+			</if>
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findSysRoleList" parameterType="cn.cjpt.mes.pojo.vo.SysRoleQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.SysRoleCustom">
+
+		select * from sys_role
+		<where>
+			<include refid="query_sys_role_where" />
+		</where>
+	</select>
+
+
+	<!-- 根据用户 id 查询 用户角色 -->
+	<select id="findSysRoleByUserId" parameterType="String"
+		resultType="cn.cjpt.mes.pojo.po.SysRole">
+		select *
+		from SYS_ROLE
+		where SYS_ROLE.ID IN
+		(
+		SELECT
+		SYS_ROLE_ID
+		FROM SYS_USER_ROLE
+		WHERE SYS_USER_ROLE.SYS_USER_ID =
+		#{userid})
+	</select>
+
+</mapper>

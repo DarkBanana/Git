@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.BarCodeMapperCustom">
+
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_barCode_where">
+		<if test="barCodeCustom!=null">
+			<if test="barCodeCustom.id!=null and barCodeCustom.id!=''">
+				and BAR_CODE.id = #{barCodeCustom.userid}
+			</if>
+			<if test="barCodeCustom.name!=null and barCodeCustom.name!=''">
+				and BAR_CODE.name = #{barCodeCustom.name}
+			</if>
+
+			<if test="barCodeCustom.createtime!=null and barCodeCustom.createtime!=''">
+				and BAR_CODE.createtime = #{barCodeCustom.createtime}
+			</if>
+
+			<if test="barCodeCustom.types!=null and barCodeCustom.types!=''">
+				and BAR_CODE.types like '%${barCodeCustom.types}%'
+			</if>
+			<if
+				test="barCodeCustom.barcodenumber!=null and barCodeCustom.barcodenumber!=''">
+				and BAR_CODE.barcodenumber =
+				#{barCodeCustom.barcodenumber}
+			</if>
+			<if
+				test="barCodeCustom.cabinettype!=null and barCodeCustom.cabinettype!=''">
+				and BAR_CODE.cabinettype like '%${barCodeCustom.cabinettype}%'
+			</if>
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findBarCodeList" parameterType="cn.cjpt.mes.pojo.vo.BarCodeQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.BarCodeCustom">
+
+		select * from BAR_CODE
+		<where>
+			<include refid="query_barCode_where" />
+		</where>
+		order by createtime desc
+	</select>
+</mapper>

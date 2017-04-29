@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.PublishworkorderCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_workorder_where">
+		<if test="publishworkorderCustom!=null">
+			<if
+				test="publishworkorderCustom.publishworkordenum!=null and publishworkorderCustom.publishworkordenum!=''">
+				and publishworkordenum =
+				'${publishworkorderCustom.publishworkordenum}'
+			</if>
+			<if
+				test="publishworkorderCustom.tcname!=null and publishworkorderCustom.tcname!=''">
+				and tcname = '${publishworkorderCustom.tcname}'
+			</if>
+			<if
+				test="publishworkorderCustom.begintime!=null and publishworkorderCustom.begintime!=''">
+				and begintime like
+				'%'||(SUBSTR('${publishworkorderCustom.begintime}',1,10))||'%'
+			</if>
+
+			<if
+				test="publishworkorderCustom.technicsid!=null and publishworkorderCustom.technicsid!=''">
+				and technicsid = '${publishworkorderCustom.technicsid}'
+			</if>
+
+			<if
+				test="publishworkorderCustom.nowTime!=null and publishworkorderCustom.nowTime!=''">
+				AND PUBLISHWORKORDER.BEGINTIME
+				&lt;=#{publishworkorderCustom.nowTime}
+			</if>
+			<if
+				test="publishworkorderCustom.nowTime!=null and publishworkorderCustom.nowTime!=''">
+				AND PUBLISHWORKORDER.ENDTIME
+				&gt;=#{publishworkorderCustom.nowTime}
+			</if>
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findPublishworkorderList" parameterType="cn.cjpt.mes.pojo.vo.PublishworkorderQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.PublishworkorderCustom">
+		select ttt.*,
+	    SUBSTR(begintime, 1, 10) as btime,
+	    SUBSTR(endtime, 1, 10)
+	    as etime
+	    from (select tt.*,
+	    (select count(*)
+	    from PROCEDURECODING
+	    where
+	    technicsname = tt.technicsname
+	    and materielid = tt.mid) as finishNum
+	    from (select p.*,
+	    t.technicsname,
+	    t.tcname,
+	    o.ordernum,
+	    m.id as mid,
+	    m.materielname,
+	    m.unitname,
+	    m.remark1,
+	    ct.cname
+	    from Publishworkorder p
+	    left join Technics t
+	    on p.technicsid = t.id
+	    left join orderdecompose od
+	    on p.orderdecomposeid
+	    = od.id
+	    left join Orders o
+	    on od.ordersid = o.id
+	    left join Materiel m
+	    on
+	    od.materielid = m.id
+	    left join CTYPE ct
+	         on m.ctypeid = ct.id
+	    ) tt)ttt
+
+
+
+		<where>
+			<include refid="query_workorder_where" />
+		</where>
+
+		order by begintime desc,to_number（remark1） asc
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findPublishworkorderCount" parameterType="cn.cjpt.mes.pojo.vo.PublishworkorderQueryVo"
+		resultType="int">
+		select count(*) from (select tt.*,(select count(*) from
+		PROCEDURECODING where technicsname = tt.technicsname and materielid =
+		tt.mid ) as finishNum from (select p.*,
+		t.technicsname,
+		t.tcname,
+		o.ordernum,
+		m.id as mid,
+		m.materielname,
+		m.unitname
+		from Publishworkorder
+		p
+		left join Technics t
+		on p.technicsid = t.id
+		left join orderdecompose od
+		on p.orderdecomposeid = od.id
+		left join Orders o
+		on od.ordersid = o.id
+		left join Materiel m
+		on od.materielid = m.id)tt)
+
+		<where>
+			<include refid="query_workorder_where" />
+		</where>
+		order by begintime desc
+	</select>
+
+
+	<!-- 根据日期查询 订单 -->
+	<select id="finPublishworkorderListByDate" parameterType="cn.cjpt.mes.pojo.vo.PublishworkorderQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.PublishworkorderCustom">
+
+		select * from PUBLISHWORKORDER
+		<where>
+			<include refid="query_workorder_where" />
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.RawstocktypeCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_rawstocktype_where">
+		<if test="rawstocktypeCustom!=null">
+			<if test="rawstocktypeCustom.id!=null and rawstocktypeCustom.id!=''">
+				and id = '${rawstocktypeCustom.id}'
+			</if>
+			<if test="rawstocktypeCustom.rttype!=null and rawstocktypeCustom.rttype!=''">
+				and rttype = '${rawstocktypeCustom.rttype}'
+			</if>
+			<if test="rawstocktypeCustom.rtname!=null and rawstocktypeCustom.rtname!=''">
+				and rtname = '${rawstocktypeCustom.rtname}'
+			</if>
+		</if>
+	</sql>
+
+	<!-- 物料类型查询 -->
+	<select id="findRawstocktypeList" parameterType="cn.cjpt.mes.pojo.vo.RawstocktypeQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.RawstocktypeCustom">
+		select * from rawstocktype 
+
+		<where>
+			<include refid="query_rawstocktype_where" />
+		</where>
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findRawstocktypeCount" parameterType="cn.cjpt.mes.pojo.vo.RawstocktypeQueryVo"
+		resultType="int">
+		select count(*) from rawstocktype 
+
+		<where>
+			<include refid="query_rawstocktype_where" />
+		</where>
+
+	</select>
+	
+
+</mapper>

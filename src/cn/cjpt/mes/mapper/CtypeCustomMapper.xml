@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.CtypeCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_ctype_where">
+		<if test="ctypeCustom!=null">
+			<if test="ctypeCustom.id!=null and ctypeCustom.id!=''">
+				and materiel.id = #{ctypeCustom.id}
+			</if>
+			<if test="ctypeCustom.cnum!=null and ctypeCustom.cnum!=''">
+				and materiel.cnum = #{ctypeCustom.cnum}
+			</if>
+		</if>
+	</sql>
+
+	<!-- ctype查询 -->
+	<select id="findCtypeList" parameterType="cn.cjpt.mes.pojo.vo.CtypeQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.CtypeCustom">
+		
+		select * from ctype
+		<where>
+			<include refid="query_ctype_where" />
+		</where>
+
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findCtypeCount" parameterType="cn.cjpt.mes.pojo.vo.CtypeQueryVo"
+		resultType="int">
+		select count(*) from ctype
+
+		<where>
+			<include refid="query_ctype_where" />
+		</where>
+
+	</select>
+
+</mapper>

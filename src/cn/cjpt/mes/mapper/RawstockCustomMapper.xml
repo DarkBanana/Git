@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.RawstockCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_rawstock_where">
+		<if test="rawstockCustom!=null">
+			<if test="rawstockCustom.id!=null and rawstockCustom.id!=''">
+				and id = '${rawstockCustom.id}'
+			</if>
+			<if test="rawstockCustom.rmodel!=null and rawstockCustom.rmodel!=''">
+				and rmodel = '${rawstockCustom.rmodel}'
+			</if>
+			<if test="rawstockCustom.rtname!=null and rawstockCustom.rtname!=''">
+				and rt.rtname = '${rawstockCustom.rtname}'
+			</if>
+
+			<if test="rawstockCustom.remark1!=null and rawstockCustom.remark1!=''">
+				and rt.remark1 = '${rawstockCustom.remark1}'
+			</if>
+			<if test="rawstockCustom.rttype!=null and rawstockCustom.rttype!=''">
+				and rttype = '${rawstockCustom.rttype}'
+			</if>
+		</if>
+	</sql>
+
+	<!-- 物料查询 -->
+	<select id="findRawstockList" parameterType="cn.cjpt.mes.pojo.vo.RawstockQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.RawstockCustom">
+		select * from Rawstock r left join rawstocktype rt on r.rtid=rt.id
+		
+
+		<where>
+			<include refid="query_rawstock_where" />
+		</where>
+		order by rtime desc
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findRawstockCount" parameterType="cn.cjpt.mes.pojo.vo.RawstockQueryVo"
+		resultType="int">
+		select count(*) from Rawstock r left join rawstocktype rt on
+		r.rtid=rt.id 
+
+		<where>
+			<include refid="query_rawstock_where" />
+		</where>
+		order by rtime desc
+	</select>
+
+	<!-- 查询到规格型号相同的最靠前的日期的物料 -->
+	<select id="findRawstockByDate" parameterType="cn.cjpt.mes.pojo.vo.RawstockQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.RawstockCustom">
+		select * from Rawstock where rtime =(
+		select max(rtime) from Rawstock rt
+
+		<where>
+			<include refid="query_rawstock_where" />
+		</where>
+		)
+	</select>
+
+	<!-- 查询 日期 最大的 那条数据 -->
+	<select id="findMaxDate" parameterType="cn.cjpt.mes.pojo.vo.RawstockQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.RawstockCustom">
+		SELECT * FROM RAWSTOCK WHERE RAWSTOCK.Rtime = (SELECT
+		MAX(RAWSTOCK.Rtime)
+		FROM RAWSTOCK)
+		<where>
+			<include refid="query_rawstock_where" />
+		</where>
+	</select>
+
+
+</mapper>

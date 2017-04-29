@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.CodingMapper" >
+  <resultMap id="BaseResultMap" type="cn.cjpt.mes.pojo.po.Coding" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MATERIELCODING" property="materielcoding" jdbcType="VARCHAR" />
+    <result column="CUT" property="cut" jdbcType="VARCHAR" />
+    <result column="PUNCH" property="punch" jdbcType="VARCHAR" />
+    <result column="BEND" property="bend" jdbcType="VARCHAR" />
+    <result column="EFITTING" property="efitting" jdbcType="VARCHAR" />
+    <result column="MFITTING" property="mfitting" jdbcType="VARCHAR" />
+    <result column="FFITTING" property="ffitting" jdbcType="VARCHAR" />
+    <result column="CUTDATE" property="cutdate" jdbcType="VARCHAR" />
+    <result column="PUNCHDATE" property="punchdate" jdbcType="VARCHAR" />
+    <result column="BENDDATE" property="benddate" jdbcType="VARCHAR" />
+    <result column="EFITTINGDATE" property="efittingdate" jdbcType="VARCHAR" />
+    <result column="MFITTINGDATE" property="mfittingdate" jdbcType="VARCHAR" />
+    <result column="FFITTINGDATE" property="ffittingdate" jdbcType="VARCHAR" />
+    <result column="MATERIELID" property="materielid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MATERIELCODING, CUT, PUNCH, BEND, EFITTING, MFITTING, FFITTING, CUTDATE, PUNCHDATE, 
+    BENDDATE, EFITTINGDATE, MFITTINGDATE, FFITTINGDATE, MATERIELID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.cjpt.mes.pojo.po.CodingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CODING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CODING
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CODING
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.cjpt.mes.pojo.po.CodingExample" >
+    delete from CODING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.cjpt.mes.pojo.po.Coding" >
+    insert into CODING (ID, MATERIELCODING, CUT, 
+      PUNCH, BEND, EFITTING, 
+      MFITTING, FFITTING, CUTDATE, 
+      PUNCHDATE, BENDDATE, EFITTINGDATE, 
+      MFITTINGDATE, FFITTINGDATE, MATERIELID
+      )
+    values (#{id,jdbcType=VARCHAR}, #{materielcoding,jdbcType=VARCHAR}, #{cut,jdbcType=VARCHAR}, 
+      #{punch,jdbcType=VARCHAR}, #{bend,jdbcType=VARCHAR}, #{efitting,jdbcType=VARCHAR}, 
+      #{mfitting,jdbcType=VARCHAR}, #{ffitting,jdbcType=VARCHAR}, #{cutdate,jdbcType=VARCHAR}, 
+      #{punchdate,jdbcType=VARCHAR}, #{benddate,jdbcType=VARCHAR}, #{efittingdate,jdbcType=VARCHAR}, 
+      #{mfittingdate,jdbcType=VARCHAR}, #{ffittingdate,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cjpt.mes.pojo.po.Coding" >
+    insert into CODING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="materielcoding != null" >
+        MATERIELCODING,
+      </if>
+      <if test="cut != null" >
+        CUT,
+      </if>
+      <if test="punch != null" >
+        PUNCH,
+      </if>
+      <if test="bend != null" >
+        BEND,
+      </if>
+      <if test="efitting != null" >
+        EFITTING,
+      </if>
+      <if test="mfitting != null" >
+        MFITTING,
+      </if>
+      <if test="ffitting != null" >
+        FFITTING,
+      </if>
+      <if test="cutdate != null" >
+        CUTDATE,
+      </if>
+      <if test="punchdate != null" >
+        PUNCHDATE,
+      </if>
+      <if test="benddate != null" >
+        BENDDATE,
+      </if>
+      <if test="efittingdate != null" >
+        EFITTINGDATE,
+      </if>
+      <if test="mfittingdate != null" >
+        MFITTINGDATE,
+      </if>
+      <if test="ffittingdate != null" >
+        FFITTINGDATE,
+      </if>
+      <if test="materielid != null" >
+        MATERIELID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="materielcoding != null" >
+        #{materielcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="cut != null" >
+        #{cut,jdbcType=VARCHAR},
+      </if>
+      <if test="punch != null" >
+        #{punch,jdbcType=VARCHAR},
+      </if>
+      <if test="bend != null" >
+        #{bend,jdbcType=VARCHAR},
+      </if>
+      <if test="efitting != null" >
+        #{efitting,jdbcType=VARCHAR},
+      </if>
+      <if test="mfitting != null" >
+        #{mfitting,jdbcType=VARCHAR},
+      </if>
+      <if test="ffitting != null" >
+        #{ffitting,jdbcType=VARCHAR},
+      </if>
+      <if test="cutdate != null" >
+        #{cutdate,jdbcType=VARCHAR},
+      </if>
+      <if test="punchdate != null" >
+        #{punchdate,jdbcType=VARCHAR},
+      </if>
+      <if test="benddate != null" >
+        #{benddate,jdbcType=VARCHAR},
+      </if>
+      <if test="efittingdate != null" >
+        #{efittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="mfittingdate != null" >
+        #{mfittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="ffittingdate != null" >
+        #{ffittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        #{materielid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.cjpt.mes.pojo.po.CodingExample" resultType="java.lang.Integer" >
+    select count(*) from CODING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CODING
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materielcoding != null" >
+        MATERIELCODING = #{record.materielcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cut != null" >
+        CUT = #{record.cut,jdbcType=VARCHAR},
+      </if>
+      <if test="record.punch != null" >
+        PUNCH = #{record.punch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bend != null" >
+        BEND = #{record.bend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.efitting != null" >
+        EFITTING = #{record.efitting,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mfitting != null" >
+        MFITTING = #{record.mfitting,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ffitting != null" >
+        FFITTING = #{record.ffitting,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cutdate != null" >
+        CUTDATE = #{record.cutdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.punchdate != null" >
+        PUNCHDATE = #{record.punchdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.benddate != null" >
+        BENDDATE = #{record.benddate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.efittingdate != null" >
+        EFITTINGDATE = #{record.efittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mfittingdate != null" >
+        MFITTINGDATE = #{record.mfittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ffittingdate != null" >
+        FFITTINGDATE = #{record.ffittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materielid != null" >
+        MATERIELID = #{record.materielid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CODING
+    set ID = #{record.id,jdbcType=VARCHAR},
+      MATERIELCODING = #{record.materielcoding,jdbcType=VARCHAR},
+      CUT = #{record.cut,jdbcType=VARCHAR},
+      PUNCH = #{record.punch,jdbcType=VARCHAR},
+      BEND = #{record.bend,jdbcType=VARCHAR},
+      EFITTING = #{record.efitting,jdbcType=VARCHAR},
+      MFITTING = #{record.mfitting,jdbcType=VARCHAR},
+      FFITTING = #{record.ffitting,jdbcType=VARCHAR},
+      CUTDATE = #{record.cutdate,jdbcType=VARCHAR},
+      PUNCHDATE = #{record.punchdate,jdbcType=VARCHAR},
+      BENDDATE = #{record.benddate,jdbcType=VARCHAR},
+      EFITTINGDATE = #{record.efittingdate,jdbcType=VARCHAR},
+      MFITTINGDATE = #{record.mfittingdate,jdbcType=VARCHAR},
+      FFITTINGDATE = #{record.ffittingdate,jdbcType=VARCHAR},
+      MATERIELID = #{record.materielid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.cjpt.mes.pojo.po.Coding" >
+    update CODING
+    <set >
+      <if test="materielcoding != null" >
+        MATERIELCODING = #{materielcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="cut != null" >
+        CUT = #{cut,jdbcType=VARCHAR},
+      </if>
+      <if test="punch != null" >
+        PUNCH = #{punch,jdbcType=VARCHAR},
+      </if>
+      <if test="bend != null" >
+        BEND = #{bend,jdbcType=VARCHAR},
+      </if>
+      <if test="efitting != null" >
+        EFITTING = #{efitting,jdbcType=VARCHAR},
+      </if>
+      <if test="mfitting != null" >
+        MFITTING = #{mfitting,jdbcType=VARCHAR},
+      </if>
+      <if test="ffitting != null" >
+        FFITTING = #{ffitting,jdbcType=VARCHAR},
+      </if>
+      <if test="cutdate != null" >
+        CUTDATE = #{cutdate,jdbcType=VARCHAR},
+      </if>
+      <if test="punchdate != null" >
+        PUNCHDATE = #{punchdate,jdbcType=VARCHAR},
+      </if>
+      <if test="benddate != null" >
+        BENDDATE = #{benddate,jdbcType=VARCHAR},
+      </if>
+      <if test="efittingdate != null" >
+        EFITTINGDATE = #{efittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="mfittingdate != null" >
+        MFITTINGDATE = #{mfittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="ffittingdate != null" >
+        FFITTINGDATE = #{ffittingdate,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        MATERIELID = #{materielid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.cjpt.mes.pojo.po.Coding" >
+    update CODING
+    set MATERIELCODING = #{materielcoding,jdbcType=VARCHAR},
+      CUT = #{cut,jdbcType=VARCHAR},
+      PUNCH = #{punch,jdbcType=VARCHAR},
+      BEND = #{bend,jdbcType=VARCHAR},
+      EFITTING = #{efitting,jdbcType=VARCHAR},
+      MFITTING = #{mfitting,jdbcType=VARCHAR},
+      FFITTING = #{ffitting,jdbcType=VARCHAR},
+      CUTDATE = #{cutdate,jdbcType=VARCHAR},
+      PUNCHDATE = #{punchdate,jdbcType=VARCHAR},
+      BENDDATE = #{benddate,jdbcType=VARCHAR},
+      EFITTINGDATE = #{efittingdate,jdbcType=VARCHAR},
+      MFITTINGDATE = #{mfittingdate,jdbcType=VARCHAR},
+      FFITTINGDATE = #{ffittingdate,jdbcType=VARCHAR},
+      MATERIELID = #{materielid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.FproductMapper" >
+  <resultMap id="BaseResultMap" type="cn.cjpt.mes.pojo.po.Fproduct" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PUTSTORENUM" property="putstorenum" jdbcType="VARCHAR" />
+    <result column="OUTSTORENUM" property="outstorenum" jdbcType="VARCHAR" />
+    <result column="REMAINNUM" property="remainnum" jdbcType="VARCHAR" />
+    <result column="RTIME" property="rtime" jdbcType="VARCHAR" />
+    <result column="REMARK1" property="remark1" jdbcType="VARCHAR" />
+    <result column="REMARK2" property="remark2" jdbcType="VARCHAR" />
+    <result column="CTYPEID" property="ctypeid" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PUTSTORENUM, OUTSTORENUM, REMAINNUM, RTIME, REMARK1, REMARK2, CTYPEID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.cjpt.mes.pojo.po.FproductExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from FPRODUCT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from FPRODUCT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from FPRODUCT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.cjpt.mes.pojo.po.FproductExample" >
+    delete from FPRODUCT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.cjpt.mes.pojo.po.Fproduct" >
+    insert into FPRODUCT (ID, PUTSTORENUM, OUTSTORENUM, 
+      REMAINNUM, RTIME, REMARK1, 
+      REMARK2, CTYPEID)
+    values (#{id,jdbcType=VARCHAR}, #{putstorenum,jdbcType=VARCHAR}, #{outstorenum,jdbcType=VARCHAR}, 
+      #{remainnum,jdbcType=VARCHAR}, #{rtime,jdbcType=VARCHAR}, #{remark1,jdbcType=VARCHAR}, 
+      #{remark2,jdbcType=VARCHAR}, #{ctypeid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cjpt.mes.pojo.po.Fproduct" >
+    insert into FPRODUCT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="putstorenum != null" >
+        PUTSTORENUM,
+      </if>
+      <if test="outstorenum != null" >
+        OUTSTORENUM,
+      </if>
+      <if test="remainnum != null" >
+        REMAINNUM,
+      </if>
+      <if test="rtime != null" >
+        RTIME,
+      </if>
+      <if test="remark1 != null" >
+        REMARK1,
+      </if>
+      <if test="remark2 != null" >
+        REMARK2,
+      </if>
+      <if test="ctypeid != null" >
+        CTYPEID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="putstorenum != null" >
+        #{putstorenum,jdbcType=VARCHAR},
+      </if>
+      <if test="outstorenum != null" >
+        #{outstorenum,jdbcType=VARCHAR},
+      </if>
+      <if test="remainnum != null" >
+        #{remainnum,jdbcType=VARCHAR},
+      </if>
+      <if test="rtime != null" >
+        #{rtime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        #{remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null" >
+        #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="ctypeid != null" >
+        #{ctypeid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.cjpt.mes.pojo.po.FproductExample" resultType="java.lang.Integer" >
+    select count(*) from FPRODUCT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update FPRODUCT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.putstorenum != null" >
+        PUTSTORENUM = #{record.putstorenum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outstorenum != null" >
+        OUTSTORENUM = #{record.outstorenum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remainnum != null" >
+        REMAINNUM = #{record.remainnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rtime != null" >
+        RTIME = #{record.rtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark1 != null" >
+        REMARK1 = #{record.remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark2 != null" >
+        REMARK2 = #{record.remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ctypeid != null" >
+        CTYPEID = #{record.ctypeid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update FPRODUCT
+    set ID = #{record.id,jdbcType=VARCHAR},
+      PUTSTORENUM = #{record.putstorenum,jdbcType=VARCHAR},
+      OUTSTORENUM = #{record.outstorenum,jdbcType=VARCHAR},
+      REMAINNUM = #{record.remainnum,jdbcType=VARCHAR},
+      RTIME = #{record.rtime,jdbcType=VARCHAR},
+      REMARK1 = #{record.remark1,jdbcType=VARCHAR},
+      REMARK2 = #{record.remark2,jdbcType=VARCHAR},
+      CTYPEID = #{record.ctypeid,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.cjpt.mes.pojo.po.Fproduct" >
+    update FPRODUCT
+    <set >
+      <if test="putstorenum != null" >
+        PUTSTORENUM = #{putstorenum,jdbcType=VARCHAR},
+      </if>
+      <if test="outstorenum != null" >
+        OUTSTORENUM = #{outstorenum,jdbcType=VARCHAR},
+      </if>
+      <if test="remainnum != null" >
+        REMAINNUM = #{remainnum,jdbcType=VARCHAR},
+      </if>
+      <if test="rtime != null" >
+        RTIME = #{rtime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark1 != null" >
+        REMARK1 = #{remark1,jdbcType=VARCHAR},
+      </if>
+      <if test="remark2 != null" >
+        REMARK2 = #{remark2,jdbcType=VARCHAR},
+      </if>
+      <if test="ctypeid != null" >
+        CTYPEID = #{ctypeid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.cjpt.mes.pojo.po.Fproduct" >
+    update FPRODUCT
+    set PUTSTORENUM = #{putstorenum,jdbcType=VARCHAR},
+      OUTSTORENUM = #{outstorenum,jdbcType=VARCHAR},
+      REMAINNUM = #{remainnum,jdbcType=VARCHAR},
+      RTIME = #{rtime,jdbcType=VARCHAR},
+      REMARK1 = #{remark1,jdbcType=VARCHAR},
+      REMARK2 = #{remark2,jdbcType=VARCHAR},
+      CTYPEID = #{ctypeid,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

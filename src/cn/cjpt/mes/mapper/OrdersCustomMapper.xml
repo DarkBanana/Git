@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.OrdersCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_orders_where">
+		<if test="ordersCustom!=null">
+			<if test="ordersCustom.id!=null and ordersCustom.id!=''">
+				and orders.id = #{ordersCustom.id}
+			</if>
+			<if test="ordersCustom.orderNum!=null and ordersCustom.orderNum!=''">
+				and orders.orderNum = #{ordersCustom.orderNum}
+			</if>
+			<if
+				test="ordersCustom.cabinetNumber!=null and ordersCustom.cabinetNumber!=''">
+				and orders.cabinetNumber = #{ordersCustom.cabinetNumber}
+			</if>
+
+			<if
+				test="ordersCustom.orderContract!=null and ordersCustom.orderContract!=''">
+				and orders.orderContract = #{ordersCustom.orderContract}
+			</if>
+
+		</if>
+	</sql>
+
+	<select id="findOrdersList" parameterType="cn.cjpt.mes.pojo.vo.OrdersQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.OrdersCustom">
+		select o.*,
+		SUBSTR(begintime, 1, 10) as btime,
+		SUBSTR(endtime, 1, 10) as
+		etime,
+		ct.cname as cname
+		from Orders o
+		left join CTYPE ct
+		on materieltype
+		= ct.cnum
+
+		<where>
+			<include refid="query_orders_where" />
+		</where>
+
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findOrdersCount" parameterType="cn.cjpt.mes.pojo.vo.OrdersQueryVo"
+		resultType="int">
+		select count(*) from Orders
+
+		<where>
+			<include refid="query_orders_where" />
+		</where>
+
+	</select>
+
+
+
+</mapper>

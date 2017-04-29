@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.ProcedurecodingMapper" >
+  <resultMap id="BaseResultMap" type="cn.cjpt.mes.pojo.po.Procedurecoding" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="MATERIELCODING" property="materielcoding" jdbcType="VARCHAR" />
+    <result column="TECHNICSNAME" property="technicsname" jdbcType="VARCHAR" />
+    <result column="FINISHTIME" property="finishtime" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="MATERIELID" property="materielid" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, MATERIELCODING, TECHNICSNAME, FINISHTIME, REMARK, MATERIELID, OPERATOR
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.cjpt.mes.pojo.po.ProcedurecodingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PROCEDURECODING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from PROCEDURECODING
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from PROCEDURECODING
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.cjpt.mes.pojo.po.ProcedurecodingExample" >
+    delete from PROCEDURECODING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.cjpt.mes.pojo.po.Procedurecoding" >
+    insert into PROCEDURECODING (ID, MATERIELCODING, TECHNICSNAME, 
+      FINISHTIME, REMARK, MATERIELID, 
+      OPERATOR)
+    values (#{id,jdbcType=VARCHAR}, #{materielcoding,jdbcType=VARCHAR}, #{technicsname,jdbcType=VARCHAR}, 
+      #{finishtime,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{materielid,jdbcType=VARCHAR}, 
+      #{operator,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cjpt.mes.pojo.po.Procedurecoding" >
+    insert into PROCEDURECODING
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="materielcoding != null" >
+        MATERIELCODING,
+      </if>
+      <if test="technicsname != null" >
+        TECHNICSNAME,
+      </if>
+      <if test="finishtime != null" >
+        FINISHTIME,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="materielid != null" >
+        MATERIELID,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="materielcoding != null" >
+        #{materielcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="technicsname != null" >
+        #{technicsname,jdbcType=VARCHAR},
+      </if>
+      <if test="finishtime != null" >
+        #{finishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        #{materielid,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.cjpt.mes.pojo.po.ProcedurecodingExample" resultType="java.lang.Integer" >
+    select count(*) from PROCEDURECODING
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update PROCEDURECODING
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materielcoding != null" >
+        MATERIELCODING = #{record.materielcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="record.technicsname != null" >
+        TECHNICSNAME = #{record.technicsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.finishtime != null" >
+        FINISHTIME = #{record.finishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.materielid != null" >
+        MATERIELID = #{record.materielid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update PROCEDURECODING
+    set ID = #{record.id,jdbcType=VARCHAR},
+      MATERIELCODING = #{record.materielcoding,jdbcType=VARCHAR},
+      TECHNICSNAME = #{record.technicsname,jdbcType=VARCHAR},
+      FINISHTIME = #{record.finishtime,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      MATERIELID = #{record.materielid,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.cjpt.mes.pojo.po.Procedurecoding" >
+    update PROCEDURECODING
+    <set >
+      <if test="materielcoding != null" >
+        MATERIELCODING = #{materielcoding,jdbcType=VARCHAR},
+      </if>
+      <if test="technicsname != null" >
+        TECHNICSNAME = #{technicsname,jdbcType=VARCHAR},
+      </if>
+      <if test="finishtime != null" >
+        FINISHTIME = #{finishtime,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="materielid != null" >
+        MATERIELID = #{materielid,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.cjpt.mes.pojo.po.Procedurecoding" >
+    update PROCEDURECODING
+    set MATERIELCODING = #{materielcoding,jdbcType=VARCHAR},
+      TECHNICSNAME = #{technicsname,jdbcType=VARCHAR},
+      FINISHTIME = #{finishtime,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      MATERIELID = #{materielid,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

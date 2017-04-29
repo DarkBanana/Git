@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.EquipmentledgerMapperCustom">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_equipmentledger_where">
+		<if test="equipmentledgerCustom!=null">
+			<if test="equipmentledgerCustom.id!=null and equipmentledgerCustom.id!=''">
+				and equipmentledger.id = #{equipmentledgerCustom.id}
+			</if>
+			<if test="equipmentledgerCustom.name!=null and equipmentledgerCustom.name!=''">
+				and equipmentledger.name = #{equipmentledgerCustom.name}
+			</if>
+			<if test="equipmentledgerCustom.tel!=null and equipmentledgerCustom.tel!=''">
+				and equipmentledger.tel = #{equipmentledgerCustom.tel}
+			</if>
+
+			<if test="equipmentledgerCustom.role!=null and equipmentledgerCustom.role!=''">
+				and equipmentledger.role = #{equipmentledgerCustom.role}
+			</if>
+
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findEquipmentledgerList" parameterType="cn.cjpt.mes.pojo.vo.EquipmentledgerQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.EquipmentledgerCustom">
+		
+
+		select * from EQUIPMENTLEDGER
+		<where>
+			<include refid="query_equipmentledger_where" />
+		</where>
+
+		
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findEquipmentledgerCount" parameterType="cn.cjpt.mes.pojo.vo.EquipmentledgerQueryVo"
+		resultType="int">
+		select count(*) from EQUIPMENTLEDGER
+
+		<where>
+			<include refid="query_equipmentledger_where" />
+		</where>
+
+	</select>
+
+</mapper>

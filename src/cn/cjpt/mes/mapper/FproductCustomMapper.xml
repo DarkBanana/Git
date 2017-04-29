@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.FproductCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_fproduct_where">
+		<if test="fproductCustom!=null">
+			<if test="fproductCustom.id!=null and fproductCustom.id!=''">
+				and id = '${fproductCustom.id}'
+			</if>
+			<if test="fproductCustom.ctypeid!=null and fproductCustom.ctypeid!=''">
+				and ctypeid = '${fproductCustom.ctypeid}'
+			</if>
+		</if>
+	</sql>
+
+	<!-- 物料类型查询 -->
+	<select id="findFproductList" parameterType="cn.cjpt.mes.pojo.vo.FproductQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.FproductCustom">
+		select s.id,
+		s.putstorenum,
+		s.outstorenum,
+		s.remainnum,
+		s.rtime,
+		s.cname
+		from (select f.id,
+		f.putstorenum,
+		f.outstorenum,
+		f.remainnum,
+		f.rtime,
+		c.cname
+		from fproduct f
+		left join ctype c
+		on f.ctypeid = c.id) s
+		order by
+		rtime desc
+
+		<where>
+			<include refid="query_fproduct_where" />
+		</where>
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findFproductCount" parameterType="cn.cjpt.mes.pojo.vo.FproductQueryVo"
+		resultType="int">
+		select count(*)
+		from (select f.id,
+		f.putstorenum,
+		f.outstorenum,
+		f.remainnum,
+		f.rtime,
+		c.cname
+		from fproduct f
+		left join ctype c
+		on
+		f.ctypeid = c.id) s
+		order by rtime desc
+
+
+		<where>
+			<include refid="query_fproduct_where" />
+		</where>
+
+	</select>
+
+	<!-- 查询到规格型号相同的最靠前的日期的物料 -->
+	<select id="findFproductByDate" parameterType="cn.cjpt.mes.pojo.vo.FproductQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.FproductCustom">
+		select * from fproduct where rtime =(
+		select max(rtime) from fproduct
+
+		<where>
+			<include refid="query_fproduct_where" />
+		</where>
+		)
+	</select>
+
+	<!-- 查询 日期 最大的 那条数据 -->
+	<select id="findMaxDate" parameterType="cn.cjpt.mes.pojo.vo.FproductQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.FproductCustom">
+
+		SELECT * FROM FPRODUCT WHERE FPRODUCT.RTIME = (SELECT
+		MAX(Fproduct.Rtime)
+		FROM FPRODUCT)
+
+	</select>
+
+
+
+</mapper>

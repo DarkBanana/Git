@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd 
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
+	<!-- 认证和授权的service -->
+	<bean id="sysService" class="cn.cjpt.mes.service.impl.SysServiceImpl"></bean>
+	<!-- 用户角色 -->
+	<bean id="sysRoleService" class="cn.cjpt.mes.service.impl.SysRoleServiceImpl"></bean>
+	<!-- 权限 service -->
+	<bean id="sysPermissionService" class="cn.cjpt.mes.service.impl.SysPermissionServiceImpl"></bean>
+	<!-- 系统用户 -->
+	<bean id="sysUserService" class="cn.cjpt.mes.service.impl.SysUserServiceImpl"></bean>
+	<!-- 用户角色 -->
+	<bean id="sysUserRoleService" class="cn.cjpt.mes.service.impl.SysUserRoleServiceImpl"></bean>
+	<!-- 条码 -->
+	<bean id="barCodeService" class="cn.cjpt.mes.service.impl.BarCodeServiceImpl"></bean>
+	<!-- 柜体 -->
+	<bean id="ctypeService" class="cn.cjpt.mes.service.impl.CtypeServiceImpl"></bean>
+	<!-- 物料 -->
+	<bean id="materielService" class="cn.cjpt.mes.service.impl.MaterielServiceImpl"></bean>
+
+	<bean id="ordersService" class="cn.cjpt.mes.service.impl.OrdersServiceImpl" />
+
+	<bean id="bomService" class="cn.cjpt.mes.service.impl.BomServiceImpl" />
+
+	<bean id="orderdecomposeService" class="cn.cjpt.mes.service.impl.OrderdecomposeServiceImpl" />
+
+	<bean id="workorderService" class="cn.cjpt.mes.service.impl.WorkorderServiceImpl" />
+
+	<bean id="rawstockService" class="cn.cjpt.mes.service.impl.RawstockServiceImpl" />
+
+	<bean id="rawstocktypeService" class="cn.cjpt.mes.service.impl.RawstocktypeServiceImpl" />
+
+	<bean id="ProcedurecodingService" class="cn.cjpt.mes.service.impl.ProcedurecodingServiceImpl" />
+
+	<bean id="SemiproductaService" class="cn.cjpt.mes.service.impl.SemiproductaServiceImpl" />
+
+	<bean id="SemiproductbService" class="cn.cjpt.mes.service.impl.SemiproductbServiceImpl" />
+
+	<bean id="FproductService" class="cn.cjpt.mes.service.impl.FproductServiceImpl" />
+
+	<!-- 工艺路线 -->
+	<bean id="technicsService" class="cn.cjpt.mes.service.impl.TechnicsServiceImpl"></bean>
+
+	<bean id="EquipmentledgerService" class="cn.cjpt.mes.service.impl.EquipmentledgerServiceImpl" />
+
+	<bean id="MaintenanceService" class="cn.cjpt.mes.service.impl.MaintenanceServiceImpl" />
+
+	<bean id="ToolmanagementService" class="cn.cjpt.mes.service.impl.ToolmanagementServiceImpl" />
+
+	<bean id="QualitycheckService" class="cn.cjpt.mes.service.impl.QualitycheckServiceImpl" />
+
+</beans>

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.cjpt.mes.mapper.BarCodeMapper" >
+  <resultMap id="BaseResultMap" type="cn.cjpt.mes.pojo.po.BarCode" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="BARCODENUMBER" property="barcodenumber" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPES" property="types" jdbcType="VARCHAR" />
+    <result column="CABINETTYPE" property="cabinettype" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+    <result column="OPERATORNAME" property="operatorname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, BARCODENUMBER, NAME, TYPES, CABINETTYPE, CREATETIME, OPERATORNAME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.cjpt.mes.pojo.po.BarCodeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BAR_CODE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from BAR_CODE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from BAR_CODE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.cjpt.mes.pojo.po.BarCodeExample" >
+    delete from BAR_CODE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.cjpt.mes.pojo.po.BarCode" >
+    insert into BAR_CODE (ID, BARCODENUMBER, NAME, 
+      TYPES, CABINETTYPE, CREATETIME, 
+      OPERATORNAME)
+    values (#{id,jdbcType=VARCHAR}, #{barcodenumber,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{types,jdbcType=VARCHAR}, #{cabinettype,jdbcType=VARCHAR}, #{createtime,jdbcType=VARCHAR}, 
+      #{operatorname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.cjpt.mes.pojo.po.BarCode" >
+    insert into BAR_CODE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="barcodenumber != null" >
+        BARCODENUMBER,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="types != null" >
+        TYPES,
+      </if>
+      <if test="cabinettype != null" >
+        CABINETTYPE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="operatorname != null" >
+        OPERATORNAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="barcodenumber != null" >
+        #{barcodenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="types != null" >
+        #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinettype != null" >
+        #{cabinettype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorname != null" >
+        #{operatorname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.cjpt.mes.pojo.po.BarCodeExample" resultType="java.lang.Integer" >
+    select count(*) from BAR_CODE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update BAR_CODE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.barcodenumber != null" >
+        BARCODENUMBER = #{record.barcodenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.types != null" >
+        TYPES = #{record.types,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cabinettype != null" >
+        CABINETTYPE = #{record.cabinettype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CREATETIME = #{record.createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operatorname != null" >
+        OPERATORNAME = #{record.operatorname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update BAR_CODE
+    set ID = #{record.id,jdbcType=VARCHAR},
+      BARCODENUMBER = #{record.barcodenumber,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      TYPES = #{record.types,jdbcType=VARCHAR},
+      CABINETTYPE = #{record.cabinettype,jdbcType=VARCHAR},
+      CREATETIME = #{record.createtime,jdbcType=VARCHAR},
+      OPERATORNAME = #{record.operatorname,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.cjpt.mes.pojo.po.BarCode" >
+    update BAR_CODE
+    <set >
+      <if test="barcodenumber != null" >
+        BARCODENUMBER = #{barcodenumber,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="types != null" >
+        TYPES = #{types,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinettype != null" >
+        CABINETTYPE = #{cabinettype,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=VARCHAR},
+      </if>
+      <if test="operatorname != null" >
+        OPERATORNAME = #{operatorname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.cjpt.mes.pojo.po.BarCode" >
+    update BAR_CODE
+    set BARCODENUMBER = #{barcodenumber,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TYPES = #{types,jdbcType=VARCHAR},
+      CABINETTYPE = #{cabinettype,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=VARCHAR},
+      OPERATORNAME = #{operatorname,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

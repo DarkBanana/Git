@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.ToolmanagementMapperCustom">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_toolmanagement_where">
+		<if test="toolmanagementCustom!=null">
+			<if test="toolmanagementCustom.id!=null and toolmanagementCustom.id!=''">
+				and toolmanagement.id = #{toolmanagementCustom.id}
+			</if>
+			<if
+				test="toolmanagementCustom.name!=null and toolmanagementCustom.name!=''">
+				and toolmanagement.name = #{toolmanagementCustom.name}
+			</if>
+			<if test="toolmanagementCustom.tel!=null and toolmanagementCustom.tel!=''">
+				and toolmanagement.tel = #{toolmanagementCustom.tel}
+			</if>
+
+			<if
+				test="toolmanagementCustom.role!=null and toolmanagementCustom.role!=''">
+				and toolmanagement.role = #{toolmanagementCustom.role}
+			</if>
+
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findToolmanagementList" parameterType="cn.cjpt.mes.pojo.vo.ToolmanagementQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.ToolmanagementCustom">
+
+
+		select * from TOOLMANAGEMENT
+		<where>
+			<include refid="query_toolmanagement_where" />
+		</where>
+
+
+	</select>
+
+
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findToolmanagementCount" parameterType="cn.cjpt.mes.pojo.vo.ToolmanagementQueryVo"
+		resultType="int">
+		select count(*) from TOOLMANAGEMENT
+
+		<where>
+			<include refid="query_toolmanagement_where" />
+		</where>
+
+	</select>
+</mapper>

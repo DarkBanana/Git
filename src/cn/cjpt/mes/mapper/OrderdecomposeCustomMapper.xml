@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.OrderdecomposeCustomMapper">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_orderdecompose_where">
+		<if test="orderdecomposeCustom!=null">
+			<if test="orderdecomposeCustom.id!=null and orderdecomposeCustom.id!=''">
+				and orderdecompose.id = #{orderdecomposeCustom.id}
+			</if>
+			<if
+				test="orderdecomposeCustom.odnumber!=null and orderdecomposeCustom.odnumber!=''">
+				and orderdecompose.odnumber = #{orderdecomposeCustom.odnumber}
+			</if>
+			<if
+				test="orderdecomposeCustom.ordersid!=null and orderdecomposeCustom.ordersid!=''">
+				and orderdecompose.ordersid = #{orderdecomposeCustom.ordersid}
+			</if>
+			<if
+				test="orderdecomposeCustom.remark!=null and orderdecomposeCustom.remark!=''">
+				and orderdecompose.remark = #{orderdecomposeCustom.remark}
+			</if>
+
+			<if
+				test="orderdecomposeCustom.materielid!=null and orderdecomposeCustom.materielid!=''">
+				and orderdecompose.materielid =
+				#{orderdecomposeCustom.materielid}
+			</if>
+			<if
+				test="orderdecomposeCustom.nowTime!=null and orderdecomposeCustom.nowTime!=''">
+				AND orderdecompose.BEGINTIME
+				&lt;=#{orderdecomposeCustom.nowTime}
+			</if>
+			<if
+				test="orderdecomposeCustom.nowTime!=null and orderdecomposeCustom.nowTime!=''">
+				AND orderdecompose.ENDTIME
+				&gt;=#{orderdecomposeCustom.nowTime}
+			</if>
+		</if>
+	</sql>
+
+	<!-- 用户查询 -->
+	<select id="findOrderdecomposeList" parameterType="cn.cjpt.mes.pojo.vo.OrderdecomposeQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.OrderdecomposeCustom">
+
+		select t.*,
+            SUBSTR(t.begintime, 1, 10) as btime,
+            SUBSTR(t.endtime, 1, 10) as etime,
+            m.materielname,
+            m.unitname,
+            m.tasktime,
+            m.ctypeid,
+            m.remark1,
+            o.ordernum,
+            ct.cname,
+            ROUND(TO_NUMBER(t.odnumber) * TO_NUMBER(m.tasktime) / 60,
+                  2) as totaltime
+       from ORDERDECOMPOSE t
+       left join MATERIEL m
+         on t.materielid = m.id
+       left join ORDERS o
+         on t.ordersid = o.id
+       left join CTYPE ct
+         on m.ctypeid = ct.id
+
+		<where>
+			<include refid="query_orderdecompose_where" />
+		</where>
+		order by ordernum,to_number（remark1）
+	</select>
+
+	<!-- 查询列表的总记录数 -->
+	<select id="findOrderdecomposeCount" parameterType="cn.cjpt.mes.pojo.vo.OrderdecomposeQueryVo"
+		resultType="int">
+		select count(*) from ORDERDECOMPOSE t left join MATERIEL m on
+		t.materielid=m.id left join ORDERS o on t.ordersid=o.id
+
+		<where>
+			<include refid="query_orderdecompose_where" />
+		</where>
+
+	</select>
+
+
+	<!-- 查询 分解 订单 和 物料 信息 -->
+	<select id="findOrderdecomposeAndMaterial" parameterType="cn.cjpt.mes.pojo.vo.OrderdecomposeQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.OrderdecomposeCustom">
+
+		select ORDERDECOMPOSE.ODNUMBER,
+		ORDERDECOMPOSE.BEGINTIME,
+		ORDERDECOMPOSE.ENDTIME,
+		(select unitname
+		from MATERIEL
+		WHERE
+		MATERIEL.ID = ORDERDECOMPOSE.MATERIELID) unitname,
+		(select materielname
+		from MATERIEL
+		WHERE MATERIEL.ID = ORDERDECOMPOSE.MATERIELID)
+		materielname
+		FROM ORDERDECOMPOSE
+
+
+		<where>
+			<include refid="query_orderdecompose_where" />
+		</where>
+
+	</select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjpt.mes.mapper.TodayplanMapperCustom">
+	<!-- 用户查询条件 通常情况，为了提高 sql片段可重用性，按单表创建sql片段 -->
+	<sql id="query_todayPlan_where">
+		<if test="todayplanCustom!=null">
+			<if test="todayplanCustom.id!=null and todayplanCustom.id!=''">
+				and Todayplan.id = #{todayplanCustom.id}
+			</if>
+			<if test="todayplanCustom.name!=null and todayplanCustom.name!=''">
+				and Todayplan.name = #{todayplanCustom.name}
+			</if>
+			<if test="todayplanCustom.time!=null and todayplanCustom.time!=''">
+				and Todayplan.time = #{todayplanCustom.time}
+			</if>
+			<if test="todayplanCustom.line!=null and todayplanCustom.line!=''">
+				and Todayplan.line = #{todayplanCustom.line}
+			</if>
+		</if>
+	</sql>
+	<!-- 今日计划 -->
+	<select id="findTodayPlanList" parameterType="cn.cjpt.mes.pojo.vo.TodayplanCustomQueryVo"
+		resultType="cn.cjpt.mes.pojo.vo.TodayplanCustom">
+
+		select * from TODAYPLAN
+		<where>
+			<include refid="query_todayPlan_where" />
+		</where>
+	</select>
+</mapper>
